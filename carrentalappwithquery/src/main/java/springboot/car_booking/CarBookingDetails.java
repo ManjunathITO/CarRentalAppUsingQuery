@@ -40,14 +40,6 @@ public class CarBookingDetails
 	private CarDetails carDetails;
 	
 	
-
-	/*lic void setCardetails(CarDetails cardetails) {
-		this.cardetails = cardetails;
-	}*/
-
-
-	
-
 	public CarDetails getCarDetails() {
 		return carDetails;
 	}
@@ -125,9 +117,5 @@ public class CarBookingDetails
 	}
 
 
-	
-	
-	
-	
 	
 }

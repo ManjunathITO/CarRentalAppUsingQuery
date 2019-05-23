@@ -133,44 +133,16 @@ public void deletebooking(int bookingId) {
 	carBookingRepository.delete(bookingId);
 }
 
+public List<CarBookingDetails> getByCarId(int id){
+	return carBookingRepository.getByCarId(id);
+}
+
+
 
 public void Editbooking(int bookingId, CarBookingDetails carbooking) {
 	
-		
+	CreateBooking(carbooking);
 	
-	
-	Date newStartDate = carbooking.getStartDate();
-	Date newEndDate = carbooking.getEndDate();
-	int newBookingId = carbooking.getBookingId();
-	int carId = carbooking.getCarDetails().getId();
-	
-	
-	List<CarBookingDetails> test = carBookingRepository.getByBookingdateailfromcarId(carId,newBookingId);
-	
-	if(test.isEmpty())
-	{
-		carBookingRepository.save(carbooking);
-	}
-	else
-	{
-		
-		for (int i = 0; i < test.size(); i++) {
-			
-			if(newEndDate.before(test.get(i).getStartDate()) || newStartDate.after(test.get(i).getStartDate()))
-			{
-				System.out.println("eligeble");
-				
-			}
-			else
-			{
-				System.out.println("--------------------");
-				System.out.println("not eligeble");
-				carBookingRepository.save(carbooking);
-				test.notify();
-			}
-		
-		}
-	}
 	
 }
 	

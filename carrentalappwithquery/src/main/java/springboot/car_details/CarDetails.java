@@ -1,6 +1,7 @@
 package springboot.car_details;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import org.springframework.stereotype.Component;
@@ -12,9 +13,9 @@ public class CarDetails
 	private int id;
 	private String type;
 	private String modalname;
-	private String seatcapacity;
+	private int seatcapacity;
 	private int price;
-	private String mileage;
+	private int mileage;
 	//private double tariffForWeekdays;
 	//private double tariffForWeekends;
 	
@@ -22,7 +23,7 @@ public class CarDetails
 		
 	}
 	
-	public CarDetails(int id, String type, String modalname, String seatcapacity, int price, String mileage) {
+	public CarDetails(int id, String type, String modalname, int seatcapacity, int price, int mileage) {
 		super();
 		this.id = id;
 		this.type = type;
@@ -51,10 +52,10 @@ public class CarDetails
 	public void setModalname(String modalname) {
 		this.modalname = modalname;
 	}
-	public String getSeatcapacity() {
+	public int getSeatcapacity() {
 		return seatcapacity;
 	}
-	public void setSeatcapacity(String seatcapacity) {
+	public void setSeatcapacity(int seatcapacity) {
 		this.seatcapacity = seatcapacity;
 	}
 	public int getPrice() {
@@ -63,10 +64,10 @@ public class CarDetails
 	public void setPrice(int price) {
 		this.price = price;
 	}
-	public String getMileage() {
+	public int getMileage() {
 		return mileage;
 	}
-	public void setMileage(String mileage) {
+	public void setMileage(int mileage) {
 		this.mileage = mileage;
 	}
 }

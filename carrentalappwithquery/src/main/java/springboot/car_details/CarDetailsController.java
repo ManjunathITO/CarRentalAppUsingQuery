@@ -38,13 +38,13 @@ public class CarDetailsController
 		
 	}
 	
-	@RequestMapping("/carinformation/fortype/{type}")
+	@RequestMapping("/carinformation/bytype/{type}")
 	public List<CarDetails> getByType(@PathVariable ("type") String type)
 	{
 		return carDetailsService.getByType(type);
 	}
 	
-	@RequestMapping("/carinformation/formodal/{modalname}")
+	@RequestMapping("/carinformation/bymodal/{modalname}")
 	public List<CarDetails> getModalname(@PathVariable ("modalname") String modalname)
 	{
 		return carDetailsService.getByModalname(modalname);

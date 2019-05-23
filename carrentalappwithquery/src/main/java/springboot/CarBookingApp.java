@@ -15,3 +15,4 @@ public class CarBookingApp
 		SpringApplication.run(CarBookingApp.class, args);
 	}
 }
+	

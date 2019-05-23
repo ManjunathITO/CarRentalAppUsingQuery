@@ -24,10 +24,6 @@ import springboot.car_details.CarDetailsService;
 public class CarBookingController
 {
   
-	HashSet h1 = new HashSet();
-	HashSet h2 = new HashSet();
-	HashSet h3 = new HashSet();
-	HashSet h4 = new HashSet();
 	
 	
 	@Autowired
@@ -46,9 +42,7 @@ public class CarBookingController
 	@RequestMapping(method=RequestMethod.POST, value="/createbooking/{id}")
 	public void createbooking(@RequestBody CarBookingDetails carbooking,@PathVariable  int id)
 	{
-		//carbooking.setCardetails(new  CarDetails(id,"","","","",""));
 		
-		//carbooking.setCarDetails(new  CarDetails(id,""," ",0,0,0 ));
 		List<CarDetails> car = carDetailsRepository.findById(id);
 		carbooking.setCarDetails(car.get(0));
 		
@@ -81,14 +75,9 @@ public class CarBookingController
 	}
 	
 	@RequestMapping("/viewbooking/bycarid/{id}")
-	public CarBookingDetails getByemail(@PathVariable ("id") int id)
+	public List<CarBookingDetails> getByemail(@PathVariable ("id") int id)
 	{
-		//return carBookingService.getByid(id);
-		System.out.println("------------------");
-		CarBookingDetails c=carBookingRepository.findOne(id);
-		System.out.println(c);
-		System.out.println("----------------");
-		return c;
+		return carBookingService.getByCarId(id);
 				
 	}
 	
@@ -105,29 +94,15 @@ public class CarBookingController
 		
 		carBookingService.Editbooking(bookingId, carbooking); 
 	}
-	/*@RequestMapping(method=RequestMethod.PUT, value="/checkingavailablitycar/{startDate}/{endDate}")
-	public List<CarBookingDetails> getBystartDateandendDate(@PathVariable ("startDate") Date startDate,@PathVariable ("endDate") Date endDate)
-	{
-		return carBookingService.getBystartDateandendDate( startDate, endDate );
-	}*/ 
+	
 	
 	@RequestMapping(method=RequestMethod.GET, value="/checkingavailablitycar/{startDate}/{endDate}")
 	public List<CarDetails> getBystartDateandendDate(@PathVariable ("startDate")@DateTimeFormat(pattern = "yyyy-MM-dd")Date startDate, 
 			@PathVariable ("endDate")@DateTimeFormat(pattern = "yyyy-MM-dd")Date endDate)
 	{
 		
-		List<CarDetails> carr =carBookingService.getBystartDateandendDate( startDate, endDate );
-		
-		
-		return carr;
+		return carBookingService.getBystartDateandendDate( startDate, endDate );
+	
 	}
-	
-	
-	
-	
-	
-	
-	
-	
 	
 }
