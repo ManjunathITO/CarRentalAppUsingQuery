@@ -17,7 +17,7 @@ public interface CarDetailsRepository extends CrudRepository<CarDetails, Integer
    
    public List<CarDetails> findByModalname(String modalname);
 
-   public List<CarDetails> findById(int id);
+   public CarDetails findById(int id);
 
    @Query(value = "select * from car_details", nativeQuery = true)
    public List<CarDetails> getAllCars();

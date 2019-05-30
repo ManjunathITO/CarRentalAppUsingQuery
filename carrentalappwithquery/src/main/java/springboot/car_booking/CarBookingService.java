@@ -7,13 +7,19 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import springboot.car_details.CarDetails;
 import springboot.car_details.CarDetailsRepository;
 import springboot.car_details.CarDetailsService;
+import springboot.randomorg.carrentalapp.exception.NoBookingFoundExecption;
+import springboot.randomorg.carrentalapp.exception.NoCarFoundException;
 
 
 
@@ -26,12 +32,9 @@ public class CarBookingService {
 			new CarBookingDetails()
 			));
 	
-	HashSet h1 = new HashSet();
-	HashSet h2 = new HashSet();
-	HashSet h3 = new HashSet();
-	//HashSet h4 = new HashSet();
+
 	
-	
+	Logger log = LoggerFactory.getLogger(this.getClass().getName());
 	
 	
 	@Autowired
@@ -46,17 +49,14 @@ public class CarBookingService {
 	
 public void CreateBooking(CarBookingDetails carbooking) {
 	
+	 log.debug("Entering the CreateBooking Method ");
+	
 	Date newStartDate = carbooking.getStartDate();
 	Date newEndDate = carbooking.getEndDate();
 	int newBookingId = carbooking.getBookingId();
 	int carId = carbooking.getCarDetails().getId();
 	
-	System.out.println("===================================");
-	System.out.println("new start date "+ newStartDate);
-	System.out.println("===================================");
 	
-	System.out.println("--------------------");
-	System.out.println(carId);
 	
 	
 		// TODO Auto-generated method stub
@@ -65,6 +65,7 @@ public void CreateBooking(CarBookingDetails carbooking) {
 	if(test.isEmpty())
 	{
 		carBookingRepository.save(carbooking);
+		log.info("booking is succuesfully created");
 	}
 	else
 	{
@@ -73,75 +74,101 @@ public void CreateBooking(CarBookingDetails carbooking) {
 			
 			if(newEndDate.before(test.get(i).getStartDate()) || newStartDate.after(test.get(i).getStartDate()))
 			{
-				System.out.println("eligeble");
+				
 				carBookingRepository.save(carbooking);
+				log.info("booking is succuesfully created");
 			}
 			else
 			{
-				System.out.println("--------------------");
-				System.out.println("not eligeble");
 				
-				test.notify();
+				log.info("this car is not elligeble to create booking");
+				
 			}
 		}
 		
 	}
 	
 	
-	}
+}
 	
-	
-	
-	
+	public ResponseEntity<?> getAllcardetails() throws NoBookingFoundExecption {
 		
+		 log.debug("Entering the getAllcardetails Method ");
 	
-
-
-public List<CarBookingDetails> getAllcardetails() {
-	
-	return carBookingRepository.getAllBookingDetails();
+		List<CarBookingDetails> booking = carBookingRepository.getAllBookingDetails();
 	/*List<CarBookingDetails> bookingDetailds =new ArrayList();
 	carBookingRepository.findAll().forEach(bookingDetailds::add);
 	System.out.println("------------------------");
 	System.out.println(bookingDetailds.get(0).getStartDate());
 	return bookingDetailds;*/
+		 log.debug("Exiting the getAllcardetails Method ");
 	
+		return bookingOcurence(booking,"no bookings found");
+}
+
+
+public ResponseEntity<?> getBybookingId(int bookingId) throws NoBookingFoundExecption {
 	
-}
-
-
-public List<CarBookingDetails> getBybookingId(int bookingId) {
+	log.debug("Entering the getBybookingId Method ");
 	// TODO Auto-generated method stub
-	return carBookingRepository.findByBookingId(bookingId);
+	List<CarBookingDetails> booking =  carBookingRepository.findByBookingId(bookingId);
+	log.debug("Exiting the getBybookingId Method ");
+	return bookingOcurence(booking," no booking found for this id");
 }
 
 
-public List<CarBookingDetails> getByPersonname(String personName) {
+public ResponseEntity<?> getByPersonname(String personName) throws NoBookingFoundExecption {
 	// TODO Auto-generated method stub
-	return carBookingRepository.findByPersonName(personName);
+	log.debug("Entering the getByPersonname Method ");
+	List<CarBookingDetails> booking =  carBookingRepository.findByPersonName(personName);
+	log.debug("Exiting the getByPersonname Method ");
+	return bookingOcurence(booking , "no booking found from this personName ");
 }
 
 
-public List<CarBookingDetails> getByEmail(String email) {
+public ResponseEntity<?> getByEmail(String email) throws NoBookingFoundExecption {
 	// TODO Auto-generated method stub
-	return carBookingRepository.findByEmail(email);
+	log.debug("Entering the getByEmail Method ");
+	List<CarBookingDetails> booking =  carBookingRepository.findByEmail(email);
+	log.debug("Exiting the getByEmail Method ");
+	return bookingOcurence(booking,  "no booking found from this Email ");
 }
 
-public void deletebooking(int bookingId) {
+public void deletebooking(int bookingId) throws NoBookingFoundExecption  {
 	
-	List<CarBookingDetails> t=carBookingRepository.findByBookingId(bookingId);
+	List<CarBookingDetails> t = carBookingRepository.findByBookingId(bookingId);
+	
+	if(t == null || t.isEmpty())
+	{
+		log.error("no booking is avilable to delete for thid id");
+		throw new NoBookingFoundExecption("no booking is avilable to delete for thid id ");
+	
+	}
+	log.info("succesfully deleted booking");
 	carBookingRepository.delete(bookingId);
 }
 
-public List<CarBookingDetails> getByCarId(int id){
-	return carBookingRepository.getByCarId(id);
+public ResponseEntity<?> getByCarId(int id) throws NoBookingFoundExecption{
+	log.debug("Entering the getByCarId Method ");
+	List<CarBookingDetails> booking = carBookingRepository.getByCarId(id);
+	log.debug("Exiting the getByCarId Method ");
+	return bookingOcurence(booking,"no booking found for this carId");
 }
 
 
 
-public void Editbooking(int bookingId, CarBookingDetails carbooking) {
+public void Editbooking(int bookingId, CarBookingDetails carbooking) throws NoBookingFoundExecption
+{
+	List<CarBookingDetails> t = carBookingRepository.findByBookingId(bookingId);
+	if(t == null || t.isEmpty())
+	{
+		log.error("no booking is avilable to edit for thid id");
+		throw new NoBookingFoundExecption("no booking is avilable to edit for thid id ");
+	
+	}
 	
 	CreateBooking(carbooking);
+	log.info("succesfully edited booking");
 	
 	
 }
@@ -149,8 +176,9 @@ public void Editbooking(int bookingId, CarBookingDetails carbooking) {
 	
 
 
-public List<CarDetails> getBystartDateandendDate(Date startDate, Date endDate)
+public ResponseEntity<?> getBystartDateandendDate(Date startDate, Date endDate) throws NoCarFoundException
 {
+	log.debug("Entering the getBystartDateandendDate Method ");
 	
 	HashSet h2 = new HashSet();
 	// TODO Auto-generated method stub
@@ -167,13 +195,30 @@ public List<CarDetails> getBystartDateandendDate(Date startDate, Date endDate)
 	while(itr2.hasNext())
 	{
 		
-		Detaildss.addAll(carDetail.getBycarId((int) itr2.next()));
+		Detaildss.add(carDetail.getBycarId((int) itr2.next()));
 	}
 	
-	
-	return  Detaildss;
+	log.debug("Exiting the getBystartDateandendDate Method ");
+	return carDetail.carOcurence(Detaildss,"no car is avilable for this start and endDate");
 	
 
 }
+public ResponseEntity<?>  bookingOcurence(List<CarBookingDetails> car , String str) throws NoBookingFoundExecption
+{
+	
+	 if(car == null || car.isEmpty())
+		{
+			log.error("no booking Available");
+			
+			throw new NoBookingFoundExecption(str);
+		}
+			
+		
+	      log.info(" booking Available");
+			return new ResponseEntity<>(car, HttpStatus.OK);
+		
+}
+
+
 
 }
