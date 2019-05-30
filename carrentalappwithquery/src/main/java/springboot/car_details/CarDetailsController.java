@@ -48,7 +48,7 @@ public class CarDetailsController
 	@RequestMapping(method=RequestMethod.GET, value="/carinformation")
 	public ResponseEntity<?> getAllinformation() throws NoCarFoundException
 	{
-		log.debug(LogMarker.ENTRY,"Gettind All the car deatils");
+		log.debug("Gettind All the car deatils");
 		
 		return carDetailsService.getAllcardetails();
 		
