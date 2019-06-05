@@ -1,10 +1,10 @@
 package springboot.car_details;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
+
 import javax.persistence.Id;
 
-import org.springframework.stereotype.Component;
+
 
 @Entity
 public class CarDetails
@@ -70,4 +70,12 @@ public class CarDetails
 	public void setMileage(int mileage) {
 		this.mileage = mileage;
 	}
+
+	@Override
+	public String toString() {
+		return "CarDetails [id=" + id + ", type=" + type + ", modalname=" + modalname + ", seatcapacity=" + seatcapacity
+				+ ", price=" + price + ", mileage=" + mileage + "]";
+	}
+	
+	
 }

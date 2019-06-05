@@ -13,13 +13,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
+
 
 import springboot.car_booking.CarBookingDetails;
 import springboot.car_booking.CarBookingRepository;
-import springboot.log.LogMarker;
-import springboot.randomorg.carrentalapp.exception.NoBookingFoundExecption;
+
+
 import springboot.randomorg.carrentalapp.exception.NoCarFoundException;
 //import springboot.randomorg.carrentalapp.exception.handleHttpRequestMethodNotSupported;
 
@@ -41,7 +40,7 @@ public class CarDetailsController
 	@RequestMapping(method=RequestMethod.POST, value="/carinformation")
 	public void adddetails(@RequestBody CarDetails cardetails )
 	{
-		ResponseEntity<?> car = carDetailsService.addcardetails(cardetails);
+		 carDetailsService.addcardetails(cardetails);
 		
 	}
 	
@@ -141,8 +140,10 @@ public class CarDetailsController
 			carDetailsService.deleteinformation(id);
 		}
 		else
+		{
 			log.info("we can not delete this, car as been booked alreday for other customer");
 	    throw new NoCarFoundException("we can not delete this, car as been booked alreday for other customer");
+		}
 		}
 			
 		

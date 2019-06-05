@@ -1,7 +1,6 @@
 package springboot.car_details;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -13,18 +12,16 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import springboot.randomorg.carrentalapp.exception.InputErrors;
-import springboot.randomorg.carrentalapp.exception.NoBookingFoundExecption;
+
 import springboot.randomorg.carrentalapp.exception.NoCarFoundException;
 
 @Service
 @Component
 public class CarDetailsService {
 
-	private List<CarDetails>  Detailds = new ArrayList<>( Arrays.asList(	
-			new CarDetails()
+	
 			
-			
-     ));
+
 	
 	Logger log = LoggerFactory.getLogger(this.getClass().getName());
 	
@@ -67,7 +64,7 @@ public class CarDetailsService {
 		log.debug("Entering the getByType Method ");
 		List<CarDetails>	car = carDetailsRepository.findBycartype(type);
 		log.debug("Exiting the getByType Method ");
-		return carOcurence(car,"type");
+		return carOcurence(car,"no car found for this type");
 		
      }
 		
@@ -77,7 +74,7 @@ public class CarDetailsService {
 			log.debug("Entering the getByModalname Method ");
 			List<CarDetails>	car =carDetailsRepository.findByModalname(modalname);
 			log.debug("Exiting the getByModalname Method ");
-			return carOcurence(car,"no modal");
+			return carOcurence(car,"no car found for this modal");
 	}
 
 		public CarDetails getBycarId(int id) {
