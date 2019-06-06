@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import springboot.car_details.CarDetails;
-import springboot.car_details.CarDetailsRepository;
+
 import springboot.car_details.CarDetailsService;
 import springboot.randomorg.carrentalapp.exception.NoBookingFoundExecption;
 import springboot.randomorg.carrentalapp.exception.NoCarFoundException;
@@ -28,9 +28,7 @@ import springboot.randomorg.carrentalapp.exception.NoCarFoundException;
 public class CarBookingService {
 
 	
-	private List<CarBookingDetails>  bookingDetailds = new ArrayList<>( Arrays.asList(	
-			new CarBookingDetails()
-			));
+	
 	
 
 	
@@ -43,8 +41,7 @@ public class CarBookingService {
 	@Autowired
 	private CarDetailsService carDetail;
 	
-	@Autowired
-	private CarDetailsRepository carDetailsRepository;
+	
 	
 	
 public void CreateBooking(CarBookingDetails carbooking) {
@@ -172,7 +169,7 @@ public void Editbooking(int bookingId, CarBookingDetails carbooking) throws NoBo
 	
 	
 }
-	
+	 
 	
 
 
